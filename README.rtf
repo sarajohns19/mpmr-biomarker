@@ -1,0 +1,66 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2639
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica-Bold;\f1\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
+\margl1440\margr1440\vieww17220\viewh10280\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\b\fs48 \cf0 READ ME\
+
+\fs36 \
+Project Summary\
+
+\f1\b0\fs26 The dataset for this project consists of several co-registered multi-parametric MRI images in rabbit quadriceps muscles, such as 4D temperature rise maps, 3D ADC maps, and 3D T2w anatomical images. MR Images were acquired 10 minutes prior-to and 10 minutes after a non-invasive thermal ablation procedure called focused ultrasound (FUS), which aims to kill tumors in the quadriceps. MR images were registered to 3D-rendered H&E sections acquired 3-5 days after treatment, which were segmented into a binary mask of non-viable (positive class) and viable (negative class) voxels as determined by pathology. \
+\
+This project implements supervised machine learning in Python to learn an acute, multi-parametric MRI biomarker of thermal cell death (non-viable), using the pathology ground-truth as the classifier label. Specifically, a logistic regression classifier and a random forest classifier are explored. These classifiers are compared to the gold-standard MRI biomarker of thermal ablation non-viability, which is Contrast-Enhanced T1w imaging. \
+\
+General Methods: \
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0\cf0 {\listtext	\uc0\u8226 	}Merge and Reshape MRI data into N x M feature space, where N=number voxels and M=number of features\
+{\listtext	\uc0\u8226 	}5-fold Gridsearch hyper-parameter tuning on training dataset\
+{\listtext	\uc0\u8226 	}Train best estimators on training dataset \
+{\listtext	\uc0\u8226 	}   \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\b\fs36 \cf0 \
+\ul Order of data processing \
+
+\f1\b0\fs28 \ulnone 1. 
+\f0\b compile_data 
+\f1\b0  -  converts .mat MRTI data to NIFTI format\
+2. 
+\f0\b preprocess_data
+\f1\b0   -   saves MPMR features and clinical data as linear format\
+3. 
+\f0\b get_combined_dataset
+\f1\b0   -  creates rabbit_dictionary.pkl and data_splits_dictionary.pkl, which are the train/validation data splits used for grid_search and training classifiers \
+4. 
+\f0\b classifier_grid_search
+\f1\b0   -   runs hyper-parameter grid_search classifiers, saves best estimators in grid search_dictionary.pkl\
+5. 
+\f0\b train_classifers 
+\f1\b0   -   defines classifiers with optimal hyper-parameters as \'93Predictor\'94 objects, trains all Predictor objects on combined data splits and CV data splits\
+6. 
+\f0\b evaluate_biomarkers
+\f1\b0   -   computes optimal thresholds, ROCs, and performance stats for combined data set and CV folds. Creates several charts for visualizing classifier performance. Creates figures for publication. \
+7. 
+\f0\b create_tables 
+\f1\b0  -   creates tables for publication \
+\
+
+\f0\b\fs36 \ul Other scripts\
+
+\f1\b0\fs28 \ulnone 1. 
+\f0\b biomarker_class
+\f1\b0   -   defines the Predictor class, which stores information about trained estimators and manually-defined binary segmentations. Includes methods for retrieving subject-specific data, data splits, and wrappers for train/fit. \
+2. 
+\f0\b tools
+\f1\b0   -   other functions needed for compiling data and calculating classifier performance stats\
+\
+
+\fs36 Credits & Dependencies\
+
+\fs26 This project expanded upon a forked repository created by Blake Zimmerman, PhD which can be found at: https://github.com/blakezim/noncontrastbiomarkers. \
+In addition to standard libraries, project dependencies include: https://github.com/blakezim/CAMP}
